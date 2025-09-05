@@ -101,9 +101,161 @@ export const ResultsSection = ({ result, uploadedImage, isLoading }: ResultsSect
                   <Button
                     variant="outline"
                     className="border-neon-purple/50 hover:border-neon-purple hover:bg-neon-purple/10"
+                    onClick={() => {
+                      if (result.heatmap) {
+                        // Create a modern heatmap modal window with better styling
+                        const newWindow = window.open('', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+                        if (newWindow) {
+                          newWindow.document.write(`
+                            <!DOCTYPE html>
+                            <html>
+                              <head>
+                                <title>AI Heatmap Analysis - ${result.disease}</title>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <style>
+                                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                                  body { 
+                                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                                    background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
+                                    color: white;
+                                    min-height: 100vh;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    padding: 20px;
+                                  }
+                                  .header {
+                                    text-align: center;
+                                    margin-bottom: 30px;
+                                  }
+                                  .title {
+                                    font-size: 2.5rem;
+                                    font-weight: bold;
+                                    background: linear-gradient(45deg, #00f5ff, #ff00ff);
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    margin-bottom: 10px;
+                                  }
+                                  .subtitle {
+                                    font-size: 1.2rem;
+                                    opacity: 0.8;
+                                    margin-bottom: 5px;
+                                  }
+                                  .confidence {
+                                    font-size: 1rem;
+                                    color: #00f5ff;
+                                    font-weight: 600;
+                                  }
+                                  .heatmap-container {
+                                    max-width: 100%;
+                                    border: 2px solid #00f5ff;
+                                    border-radius: 15px;
+                                    overflow: hidden;
+                                    box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+                                    transition: transform 0.3s ease;
+                                  }
+                                  .heatmap-container:hover {
+                                    transform: scale(1.02);
+                                    box-shadow: 0 0 50px rgba(0, 245, 255, 0.5);
+                                  }
+                                  img {
+                                    max-width: 100%;
+                                    height: auto;
+                                    display: block;
+                                  }
+                                  .info {
+                                    margin-top: 30px;
+                                    text-align: center;
+                                    max-width: 600px;
+                                  }
+                                  .info-grid {
+                                    display: grid;
+                                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                                    gap: 20px;
+                                    margin-top: 20px;
+                                  }
+                                  .info-card {
+                                    background: rgba(255, 255, 255, 0.1);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    border: 1px solid rgba(0, 245, 255, 0.3);
+                                  }
+                                  .info-card h3 {
+                                    color: #ff00ff;
+                                    margin-bottom: 5px;
+                                  }
+                                  .close-btn {
+                                    position: fixed;
+                                    top: 20px;
+                                    right: 20px;
+                                    background: linear-gradient(45deg, #ff00ff, #00f5ff);
+                                    border: none;
+                                    color: white;
+                                    padding: 10px 15px;
+                                    border-radius: 20px;
+                                    cursor: pointer;
+                                    font-weight: bold;
+                                    transition: transform 0.2s;
+                                  }
+                                  .close-btn:hover {
+                                    transform: scale(1.1);
+                                  }
+                                </style>
+                              </head>
+                              <body>
+                                <button class="close-btn" onclick="window.close()">✕ Close</button>
+                                
+                                <div class="header">
+                                  <h1 class="title">AI Heatmap Analysis</h1>
+                                  <h2 class="subtitle">Detected: ${result.disease}</h2>
+                                  <p class="confidence">Confidence: ${Math.round(result.confidence * 100)}%</p>
+                                </div>
+                                
+                                <div class="heatmap-container">
+                                  <img src="data:image/png;base64,${result.heatmap}" 
+                                       alt="Grad-CAM Heatmap Analysis" />
+                                </div>
+                                
+                                <div class="info">
+                                  <h3>About This Heatmap</h3>
+                                  <p>This heatmap shows the areas of the retinal image that the AI model focused on when making its prediction. Brighter areas indicate regions that had more influence on the diagnosis.</p>
+                                  
+                                  <div class="info-grid">
+                                    <div class="info-card">
+                                      <h3>Red/Hot Areas</h3>
+                                      <p>High attention regions that strongly influenced the prediction</p>
+                                    </div>
+                                    <div class="info-card">
+                                      <h3>Blue/Cool Areas</h3>
+                                      <p>Low attention regions with minimal impact on diagnosis</p>
+                                    </div>
+                                    <div class="info-card">
+                                      <h3>Technology</h3>
+                                      <p>Generated using Grad-CAM (Gradient-weighted Class Activation Mapping)</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </body>
+                            </html>
+                          `);
+                          newWindow.document.close();
+                        }
+                      } else {
+                        // Show a more user-friendly message
+                        const message = document.createElement('div');
+                        message.className = 'fixed top-4 right-4 bg-orange-500/90 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                        message.innerHTML = '⚠️ Heatmap not available for this prediction';
+                        document.body.appendChild(message);
+                        setTimeout(() => {
+                          document.body.removeChild(message);
+                        }, 3000);
+                      }
+                    }}
+                    disabled={!result.heatmap}
                   >
                     <Eye className="w-4 h-4 mr-2" />
-                    View Heatmap
+                    {result.heatmap ? 'View AI Heatmap' : 'Heatmap Unavailable'}
                   </Button>
                   <Button
                     onClick={generatePDFReport}

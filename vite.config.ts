@@ -8,6 +8,39 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    warmup: {
+      clientFiles: ['./src/main.tsx', './src/App.tsx', './src/pages/Index.tsx']
+    },
+  },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'ui-components': [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-progress'
+          ],
+          'chart-lib': ['recharts'],
+          'query-lib': ['@tanstack/react-query']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      '@tanstack/react-query',
+      'lucide-react',
+      'recharts'
+    ]
   },
   plugins: [
     react(),
