@@ -5,19 +5,19 @@ A comprehensive web application for detecting eye diseases using advanced deep l
 ## Features
 
 ### Frontend (React + TypeScript)
-- 🎨 Modern, responsive UI with drag-and-drop image upload
-- 📊 Real-time prediction results with confidence scores
-- 📈 Interactive visualizations and analysis details
-- 🌙 Dark/light theme support
-- 📱 Mobile-friendly design
-- 🔄 Loading animations and status indicators
+- Modern, responsive UI with drag-and-drop image upload
+- Real-time prediction results with confidence scores
+- Interactive visualizations and analysis details
+- Dark/light theme support
+- Mobile-friendly design
+- Loading animations and status indicators
 
 ### Backend (Python + Flask)
-- 🧠 Custom CNN architecture for eye disease classification
-- 🔬 OpenCV-based image preprocessing pipeline
-- 📊 Matplotlib visualizations for training metrics
-- 🔥 Grad-CAM heatmap generation for prediction explanations
-- 🎯 Support for multiple eye disease classes:
+- Custom CNN architecture for eye disease classification
+- OpenCV-based image preprocessing pipeline
+- Matplotlib visualizations for training metrics
+- Grad-CAM heatmap generation for prediction explanations
+- Support for multiple eye disease classes:
   - Normal
   - Diabetic Retinopathy
   - Glaucoma
@@ -26,12 +26,12 @@ A comprehensive web application for detecting eye diseases using advanced deep l
   - Hypertensive Retinopathy
 
 ### Machine Learning Pipeline
-- 🏗️ Custom CNN model with 4 convolutional blocks
-- 🔄 Data augmentation techniques (rotation, zoom, flips)
-- 📈 Training visualization and metrics tracking
-- 💾 Model persistence in .h5 format
-- 🎯 Transfer learning support (EfficientNet, ResNet, VGG)
-- 🔍 Image quality assessment and preprocessing
+- Custom CNN model with 4 convolutional blocks
+- Data augmentation techniques (rotation, zoom, flips)
+- Training visualization and metrics tracking
+- Model persistence in .h5 format
+- Transfer learning support (EfficientNet, ResNet, VGG)
+- Image quality assessment and preprocessing
 
 ## Tech Stack
 
